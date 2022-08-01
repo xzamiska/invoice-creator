@@ -29,13 +29,13 @@
     "url": "git+https://github.com/xzamiska/zs-invoice-creator"
   },
   "dependencies": {
-    "@types/pdfmake": "^0.1.21",
     "bysquare": "^1.0.8",
     "i18n": "^0.15.0",
     "pdfmake": "^0.2.5",
     "qrcode": "^1.5.0"
   },
   "devDependencies": {
+    "@types/pdfmake": "^0.1.21",
     "@types/i18n": "^0.13.4",
     "@types/qrcode": "^1.4.2",
     "prettier": "^2.7.1",
