@@ -19,6 +19,7 @@ export interface CompanyData extends CompanyBase {
   phone: string;
 }
 
+// tslint:disable-next-line: no-empty-interface
 export interface ClientData extends CompanyBase {}
 
 export interface DatesData {
