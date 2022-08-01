@@ -1,0 +1,23 @@
+{
+    "invoiceYou": "We invoice you:",
+    "description": "Description",
+    "count": "Count",
+    "pricePerIncl": "Price per incl.",
+    "amount": "The amount",
+    "totalAmount": "Total amount",
+    "contractor": "Contractor",
+    "purchaser": "Purchaser",
+    "idNumber": "ID number",
+    "tin": "TIN",
+    "vat": "VAT",
+    "vatNonPayer": "Non-payer of VAT",
+    "iban": "IBAN",
+    "variableSymbol": "Variable symbol",
+    "dueDate": "Due date",
+    "amountToBePaid": "Amount to be paid",
+    "invoice": "Invoice",
+    "issueDate": "Issue date",
+    "deliveryDate": "Delivery date",
+    "paymentMethod": "Payment method",
+    "issuedBy": "Issued by, signature"
+}
