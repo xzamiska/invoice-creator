@@ -1,20 +1,20 @@
-import { Alignment, Margins } from "pdfmake/interfaces";
-import { Border, LabelValueColumn } from "../../../types";
+import { Alignment, Margins } from 'pdfmake/interfaces';
+import { Border, LabelValueColumn } from '../../../types';
 
 export class LabelColumn implements LabelValueColumn {
-    fontSize: number;
-    text: string;
-    border: Border;
-    bold: boolean;
-    margin: Margins;
-    alignment: Alignment;
+  fontSize: number;
+  text: string;
+  border: Border;
+  bold: boolean;
+  margin: Margins;
+  alignment: Alignment;
 
-    constructor(text: string, alignment: Alignment) {
-        this.fontSize = 8;
-        this.text = text;
-        this.border = [false, false, false, true];
-        this.bold = true;
-        this.margin = [0, 5, 0, 5];
-        this.alignment = alignment;
-    }
+  constructor(text: string, alignment: Alignment) {
+    this.fontSize = 8;
+    this.text = text;
+    this.border = [false, false, false, true];
+    this.bold = true;
+    this.margin = [0, 5, 0, 5];
+    this.alignment = alignment;
+  }
 }

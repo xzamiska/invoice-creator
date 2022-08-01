@@ -1,4 +1,4 @@
 export interface Options {
-    locale?: string;
-    filePath?: string
+  locale?: string;
+  filePath?: string;
 }

@@ -1,19 +1,18 @@
-import { Alignment, Margins } from "pdfmake/interfaces";
+import { Alignment, Margins } from 'pdfmake/interfaces';
 
 export interface LabelValueColumn {
-    fontSize?: number;
-    alignment?: Alignment;
-    bold?: boolean;
-    color?: string;
-    fillColor?: string;
-    text: string;
-    width?: string | number;
-    margin?: Margins;
-    border?: Border;
+  fontSize?: number;
+  alignment?: Alignment;
+  bold?: boolean;
+  color?: string;
+  fillColor?: string;
+  text: string;
+  width?: string | number;
+  margin?: Margins;
+  border?: Border;
 }
 
 export type Border = [boolean, boolean, boolean, boolean];
-
 
 // colors
 export const HEADER_LABEL_COLOR = '#aaaaab'; // gray
