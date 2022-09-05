@@ -4,8 +4,8 @@ import path from 'path';
 import { BufferOptions, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { getTemplate, Templates } from './templates/template.service';
 import { DocumentData, DocumentDataClass } from './types/document-data';
-import i18n from 'i18n';
 import { Options } from './types/options';
+import { setLocale } from './services/localization';
 
 const FONTS = {
   Roboto: {
@@ -26,29 +26,35 @@ export class GeneratePdf {
     this.data = new DocumentDataClass(data);
     this.options = options;
 
-    i18n.configure({
-      locales: ['sk', 'en'],
-      directory: 'locales',
-    });
-
-    if (options?.locale) i18n.setLocale(options.locale);
+    if (options?.locale) setLocale(options.locale);
   }
 
-  async generate(): Promise<void> {
+  async generate(): Promise<EGenerateState> {
     const options: BufferOptions = {};
 
-    const docDefinition = await this.getDocument();
-    const fileName = `${this.data.fileName}.pdf`;
-    const whereToSavePath = this.options?.filePath
-      ? path.resolve(this.options.filePath, fileName)
-      : path.resolve(__dirname, fileName);
+    try {
+      const docDefinition = await this.getDocument();
+      const fileName = `${this.data.fileName}.pdf`;
+      const whereToSavePath = this.options?.filePath
+        ? path.resolve(this.options.filePath, fileName)
+        : path.resolve('./', fileName);
+      const pdfDoc = this.printer.createPdfKitDocument(docDefinition, options);
+      pdfDoc.pipe(fs.createWriteStream(whereToSavePath));
+      pdfDoc.end();
+      return EGenerateState.success;
 
-    const pdfDoc = this.printer.createPdfKitDocument(docDefinition, options);
-    pdfDoc.pipe(fs.createWriteStream(whereToSavePath));
-    pdfDoc.end();
+    } catch (error) {
+      console.error(error);
+      return EGenerateState.error;
+    }
   }
 
   private async getDocument(): Promise<TDocumentDefinitions> {
     return await getTemplate(Templates.default, this.data);
   }
+}
+
+export enum EGenerateState {
+  success,
+  error
 }

@@ -3,7 +3,7 @@ import { formatNumber } from '../../../../helper/number-formatting';
 import { DocumentDataClass } from '../../../../types/document-data';
 import { LabelColumn } from './types/label-column';
 import { ValueColumn } from './types/value-column';
-import i18n from 'i18n';
+import { __ } from '../../../../services/localization';
 
 const layout: TableLayout = {
   defaultBorder: false,
@@ -26,7 +26,7 @@ const layout: TableLayout = {
 
 export const data = (documentData: DocumentDataClass) => [
   {
-    text: i18n.__('invoiceYou'),
+    text: __('invoiceYou'),
     margin: [0, 10, 0, 10],
     fontSize: 8,
     italics: true,
@@ -38,10 +38,10 @@ export const data = (documentData: DocumentDataClass) => [
       widths: [250, '*', '*', '*'],
       body: [
         [
-          new LabelColumn(i18n.__('description'), 'left'),
-          new LabelColumn(i18n.__('count'), 'right'),
-          new LabelColumn(i18n.__('pricePerIncl'), 'right'),
-          new LabelColumn(i18n.__('amount'), 'right'),
+          new LabelColumn(__('description'), 'left'),
+          new LabelColumn(__('count'), 'right'),
+          new LabelColumn(__('pricePerIncl'), 'right'),
+          new LabelColumn(__('amount'), 'right'),
         ],
         // start loop
         ...documentData.activities.map((item) => [
@@ -53,7 +53,7 @@ export const data = (documentData: DocumentDataClass) => [
         // end loop
         [
           {
-            text: i18n.__('totalAmount'),
+            text: __('totalAmount'),
             margin: [0, 5, 0, 5],
             bold: true,
             fontSize: 9,

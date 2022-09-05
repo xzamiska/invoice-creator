@@ -2,13 +2,13 @@ import { Column } from 'pdfmake/interfaces';
 import { DocumentDataClass } from '../../../../types/document-data';
 import { LabelColumn } from './types/label-column';
 import { ValueColumn } from './types/value-column';
-import i18n from 'i18n';
+import { __ } from '../../../../services/localization';
 
 export const information = (data: DocumentDataClass) => [
   {
     columns: [
-      new LabelColumn(i18n.__('contractor').toUpperCase()),
-      new LabelColumn(i18n.__('purchaser').toUpperCase()), // client
+      new LabelColumn(__('contractor').toUpperCase()),
+      new LabelColumn(__('purchaser').toUpperCase()), // client
     ] as Column[],
   },
   {
@@ -38,20 +38,20 @@ export const information = (data: DocumentDataClass) => [
   '\n',
   {
     columns: [
-      new ValueColumn(`${i18n.__('idNumber')}: ${data.company.ico}`),
-      new ValueColumn(`${i18n.__('idNumber')}: ${data.client.ico}`), // client data
+      new ValueColumn(`${__('idNumber')}: ${data.company.ico}`),
+      new ValueColumn(`${__('idNumber')}: ${data.client.ico}`), // client data
     ] as Column[],
   },
   {
     columns: [
-      new ValueColumn(`${i18n.__('tin')}: ${data.company.dic}`),
-      new ValueColumn(`${i18n.__('tin')}: ${data.client.dic}`), // client data
+      new ValueColumn(`${__('tin')}: ${data.company.dic}`),
+      new ValueColumn(`${__('tin')}: ${data.client.dic}`), // client data
     ] as Column[],
   },
   {
     columns: [
-      new ValueColumn(`${data.company.ic_dph ? `${i18n.__('vat')}: ${data.company.ic_dph}` : i18n.__('vatNonPayer')}`),
-      new ValueColumn(`${data.client.ic_dph ? `${i18n.__('vat')}: ${data.client.ic_dph}` : i18n.__('vatNonPayer')}`), // client data
+      new ValueColumn(`${data.company.ic_dph ? `${__('vat')}: ${data.company.ic_dph}` : __('vatNonPayer')}`),
+      new ValueColumn(`${data.client.ic_dph ? `${__('vat')}: ${data.client.ic_dph}` : __('vatNonPayer')}`), // client data
     ] as Column[],
   },
 ];

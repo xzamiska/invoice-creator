@@ -4,7 +4,7 @@ import { DocumentDataClass } from '../../../types/document-data';
 
 import * as fs from 'fs';
 import * as QRCode from 'qrcode';
-import i18n from 'i18n';
+import { __ } from '../../../services/localization';
 
 const noBorder = [false, false, false, false];
 
@@ -42,7 +42,7 @@ export const pbsSignature = async (data: DocumentDataClass) => [
             bold: true,
           },
           {
-            text: `${i18n.__('issuedBy')}:`,
+            text: `${__('issuedBy')}:`,
             alignment: 'right',
             border: noBorder,
             fontSize: 10,
@@ -54,12 +54,13 @@ export const pbsSignature = async (data: DocumentDataClass) => [
             image: await getQrCode(data),
             border: noBorder,
           },
+          data.signatureSrc ?
           {
             image: base64_encode(data.signatureSrc),
             width: 200,
             border: noBorder,
             alignment: 'right',
-          },
+          }: {},
         ],
       ],
     } as Table,

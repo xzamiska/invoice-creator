@@ -2,7 +2,7 @@ import { Column } from 'pdfmake/interfaces';
 import { DocumentDataClass } from '../../../types/document-data';
 import { LabelColumn } from './types/label-column';
 import { ValueColumn } from './types/value-column';
-import i18n from 'i18n';
+import { __ } from '../../../services/localization';
 
 const headerLeft = (title: string): Column => ({
   text: title,
@@ -15,7 +15,7 @@ const headerLeft = (title: string): Column => ({
 
 const headerRigth = (data: DocumentDataClass): Column => [
   {
-    text: `${i18n.__('invoice')} ${data.payment.variableSymbol}`,
+    text: `${__('invoice')} ${data.payment.variableSymbol}`,
     color: '#333333',
     width: '*',
     fontSize: 18,
@@ -27,32 +27,32 @@ const headerRigth = (data: DocumentDataClass): Column => [
     stack: [
       {
         columns: [
-          new LabelColumn(`${i18n.__('issueDate')}:`), // const
+          new LabelColumn(`${__('issueDate')}:`), // const
           new ValueColumn(data.dates.issueDate), // load this value
         ],
       },
       {
         columns: [
-          new LabelColumn(`${i18n.__('dueDate')}:`), // const
+          new LabelColumn(`${__('dueDate')}:`), // const
           new ValueColumn(data.dates.dueDate), // load this value
         ],
       },
       '\n',
       {
         columns: [
-          new LabelColumn(`${i18n.__('variableSymbol')}:`), // const
+          new LabelColumn(`${__('variableSymbol')}:`), // const
           new ValueColumn(data.payment.variableSymbol), // load this value
         ],
       },
       {
         columns: [
-          new LabelColumn(`${i18n.__('deliveryDate')}:`), // const
+          new LabelColumn(`${__('deliveryDate')}:`), // const
           new ValueColumn(data.dates.deliveryDate), // load this value
         ],
       },
       {
         columns: [
-          new LabelColumn(`${i18n.__('paymentMethod')}:`), // const
+          new LabelColumn(`${__('paymentMethod')}:`), // const
           new ValueColumn(data.payment.paymentMethod), // const??
         ],
       },

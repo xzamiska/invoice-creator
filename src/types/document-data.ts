@@ -49,7 +49,7 @@ export interface DocumentData {
   activities: ActivityData[];
 
   fileName: string;
-  signatureSrc: string;
+  signatureSrc?: string;
 }
 
 export class DocumentDataClass implements DocumentData {
@@ -59,7 +59,7 @@ export class DocumentDataClass implements DocumentData {
   payment: PaymentData;
   activities: ActivityData[];
   fileName: string;
-  signatureSrc: string;
+  signatureSrc?: string;
 
   constructor(data: DocumentData) {
     this.company = data.company;
