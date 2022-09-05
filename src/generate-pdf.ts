@@ -44,7 +44,7 @@ export class GeneratePdf {
       return EGenerateState.success;
 
     } catch (error) {
-      console.error(error);
+      console.error(`EGenerateState.error - ${EGenerateState.error} - ${error}`);
       return EGenerateState.error;
     }
   }
