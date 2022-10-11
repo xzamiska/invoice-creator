@@ -54,13 +54,14 @@ export const pbsSignature = async (data: DocumentDataClass) => [
             image: await getQrCode(data),
             border: noBorder,
           },
-          data.signatureSrc ?
-          {
-            image: base64_encode(data.signatureSrc),
-            width: 200,
-            border: noBorder,
-            alignment: 'right',
-          }: {},
+          data.signatureSrc
+            ? {
+                image: base64_encode(data.signatureSrc),
+                width: 200,
+                border: noBorder,
+                alignment: 'right',
+              }
+            : {},
         ],
       ],
     } as Table,

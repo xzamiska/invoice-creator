@@ -9,10 +9,10 @@ import { setLocale } from './services/localization';
 
 const FONTS = {
   Roboto: {
-    normal: 'fonts/Roboto-Regular.ttf',
-    bold: 'fonts/Roboto-Medium.ttf',
-    italics: 'fonts/Roboto-Italic.ttf',
-    bolditalics: 'fonts/Roboto-MediumItalic.ttf',
+    normal: path.resolve(__dirname, '../', 'fonts/Roboto-Regular.ttf'),
+    bold: path.resolve(__dirname, '../', 'fonts/Roboto-Medium.ttf'),
+    italics: path.resolve(__dirname, '../', 'fonts/Roboto-Italic.ttf'),
+    bolditalics: path.resolve(__dirname, '../', 'fonts/Roboto-MediumItalic.ttf'),
   },
 };
 
@@ -42,7 +42,6 @@ export class GeneratePdf {
       pdfDoc.pipe(fs.createWriteStream(whereToSavePath));
       pdfDoc.end();
       return EGenerateState.success;
-
     } catch (error) {
       console.error(`EGenerateState.error - ${EGenerateState.error} - ${error}`);
       return EGenerateState.error;
@@ -56,5 +55,5 @@ export class GeneratePdf {
 
 export enum EGenerateState {
   success,
-  error
+  error,
 }
