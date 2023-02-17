@@ -18,8 +18,9 @@ const FONTS = {
 
 export class GeneratePdf {
   private printer: PdfPrinter;
-  private data: DocumentDataClass;
   private options?: Options;
+
+  public data: DocumentDataClass;
 
   constructor(data: DocumentData, options?: Options) {
     this.printer = new PdfPrinter(FONTS);
