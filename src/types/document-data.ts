@@ -20,7 +20,7 @@ export interface CompanyData extends CompanyBase {
 }
 
 // tslint:disable-next-line: no-empty-interface
-export interface ClientData extends CompanyBase { }
+export interface ClientData extends CompanyBase {}
 
 export interface DatesData {
   issueDate: string;
@@ -89,7 +89,7 @@ export class DocumentDataClass implements DocumentData {
       withoutVat: paymentAmountWOVat,
       withVat: paymentAmountWVat || undefined,
       result: paymentAmountWVat || paymentAmountWOVat,
-      vatAmount: paymentAmountWVat ? +Number(paymentAmountWVat - paymentAmountWOVat).toFixed(2) : 0
-    }
+      vatAmount: paymentAmountWVat ? +Number(paymentAmountWVat - paymentAmountWOVat).toFixed(2) : 0,
+    };
   }
 }

@@ -76,17 +76,17 @@ test('paymentAmountWVat', () => {
     ...data,
     company: {
       ...data.company,
-      ic_dph: 'LA123456'
+      ic_dph: 'LA123456',
     },
     activities: [
       ...data.activities,
       {
         count: 9,
         description: 'Test Consult',
-        pricePerUnit: 20
-      }
-    ]
-  }
+        pricePerUnit: 20,
+      },
+    ],
+  };
   const documentDataClass = new DocumentDataClass(testData);
   const paymentAmount = documentDataClass.getPaymentAmount();
   expect(paymentAmount.withVat).toBe(240);

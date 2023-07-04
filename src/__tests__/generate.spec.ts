@@ -50,7 +50,7 @@ const data: DocumentData = {
       description: 'Environmet management',
       count: 25,
       pricePerUnit: 100,
-    }
+    },
   ],
   fileName: 'test_document_without_vat',
 };
@@ -71,62 +71,47 @@ test('generateWVat', () => {
   testData.company.ic_dph = 'LA123456';
   testData.fileName = 'test_document_with_vat';
 
-  testData.activities.push(
-    {
-      description: 'Additional services',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
-  testData.activities.push(
-    {
-      description: 'Additional services',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
-  testData.activities.push(
-    {
-      description: 'Additional services',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
-  testData.activities.push(
-    {
-      description: 'Additional services',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
-  testData.activities.push(
-    {
-      description: 'Additional services',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
-  testData.activities.push(
-    {
-      description: 'Additional services',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
-  testData.activities.push(
-    {
-      description: 'Additional services',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
-  testData.activities.push(
-    {
-      description: 'Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here.',
-      count: 1450,
-      pricePerUnit: 100,
-    }
-  );
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description:
+      'Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here.',
+    count: 1450,
+    pricePerUnit: 100,
+  });
 
   let testOptions = { ...options };
   testOptions.locale = 'en';

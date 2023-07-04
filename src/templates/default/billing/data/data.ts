@@ -25,7 +25,6 @@ const layout: TableLayout = {
 };
 
 export const data = (documentData: DocumentDataClass) => {
-
   const paymentAmount = documentData.getPaymentAmount();
 
   let result = [
@@ -65,14 +64,14 @@ export const data = (documentData: DocumentDataClass) => {
             },
             '',
             '',
-            ...getAmout(paymentAmount, !!documentData.company.ic_dph)
+            ...getAmout(paymentAmount, !!documentData.company.ic_dph),
           ],
         ],
       } as Table,
     } as ContentTable,
   ];
 
-  // TODO: resolve page break 
+  // TODO: resolve page break
   // let absolutePosition = result.map((tmptem: any) => tmptem.absolutePosition);
   // let relativePosition = result.map((tmptem: any) => tmptem.relativePosition);
 
@@ -80,7 +79,7 @@ export const data = (documentData: DocumentDataClass) => {
   // console.log('relativePosition', relativePosition);
 
   if (documentData.company.ic_dph) {
-    getVatAmount(paymentAmount).forEach(row => (result[1] as ContentTable).table.body.push(row));
+    getVatAmount(paymentAmount).forEach((row) => (result[1] as ContentTable).table.body.push(row));
   }
 
   if (documentData.activities.length > 3) {
@@ -88,7 +87,7 @@ export const data = (documentData: DocumentDataClass) => {
   }
 
   return result;
-}
+};
 
 function getVatAmount(paymentAmount: PaymentAmount): any[] {
   return [
@@ -129,8 +128,8 @@ function getVatAmount(paymentAmount: PaymentAmount): any[] {
         border: [false, false, false, false],
         alignment: 'right',
       },
-    ]
-  ]
+    ],
+  ];
 }
 
 function getAmout(paymentAmount: PaymentAmount, isVatPayer: boolean): any[] {
@@ -145,7 +144,6 @@ function getAmout(paymentAmount: PaymentAmount, isVatPayer: boolean): any[] {
         alignment: 'right',
       },
     ];
-
   } else
     return [
       {
@@ -155,6 +153,6 @@ function getAmout(paymentAmount: PaymentAmount, isVatPayer: boolean): any[] {
         fontSize: 9,
         border: [false, true, false, false],
         alignment: 'right',
-      }
+      },
     ];
 }

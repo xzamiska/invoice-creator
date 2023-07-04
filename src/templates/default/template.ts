@@ -20,5 +20,5 @@ export const DefaultTemplate = async (data: DocumentDataClass): Promise<TDocumen
   defaultStyle: {
     columnGap: 20,
   },
-  footer: [footer(data)]
+  footer: [footer(data)],
 });

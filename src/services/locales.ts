@@ -23,7 +23,7 @@ const locales = {
     issuedBy: 'Issued by, signature',
     vatLabel: 'VAT',
     totalWithoutVat: 'Total without VAT',
-    totalAmountInclVat: 'Amount including VAT'
+    totalAmountInclVat: 'Amount including VAT',
   },
   sk: {
     invoiceYou: 'Fakturujeme Vám:',
@@ -49,7 +49,7 @@ const locales = {
     issuedBy: 'Vystavil/a, podpis',
     vatLabel: 'DPH',
     totalWithoutVat: 'Celkom bez DPH',
-    totalAmountInclVat: 'Suma s DPH'
+    totalAmountInclVat: 'Suma s DPH',
   },
 } as { [key: string]: { [key: string]: string } };
 
