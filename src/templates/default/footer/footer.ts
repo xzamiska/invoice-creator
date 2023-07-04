@@ -38,5 +38,6 @@ export const footer = (data: DocumentDataClass): ContentTable[] => [
         // ]
       ],
     },
+    margin: [40, 0],
   },
 ];

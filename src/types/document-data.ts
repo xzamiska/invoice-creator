@@ -20,7 +20,7 @@ export interface CompanyData extends CompanyBase {
 }
 
 // tslint:disable-next-line: no-empty-interface
-export interface ClientData extends CompanyBase {}
+export interface ClientData extends CompanyBase { }
 
 export interface DatesData {
   issueDate: string;
@@ -52,6 +52,14 @@ export interface DocumentData {
   signatureSrc?: string;
 }
 
+export interface PaymentAmount {
+  result: number;
+  withoutVat: number;
+  withVat?: number;
+  vat?: number;
+  vatAmount?: number;
+}
+
 export class DocumentDataClass implements DocumentData {
   company: CompanyData;
   client: ClientData;
@@ -71,8 +79,17 @@ export class DocumentDataClass implements DocumentData {
     this.signatureSrc = data.signatureSrc;
   }
 
-  getPaymentAmount(): number {
+  getPaymentAmount(): PaymentAmount {
     const reducer = (accumulator: number, curr: number) => accumulator + curr;
-    return this.activities.map((item) => item.count * item.pricePerUnit).reduce(reducer);
+    const paymentAmountWOVat = this.activities.map((item) => item.count * item.pricePerUnit).reduce(reducer);
+    const vat = this.company.ic_dph ? 1.2 : 1;
+    const paymentAmountWVat = this.company.ic_dph && paymentAmountWOVat * vat;
+    return {
+      vat: +Number((vat - 1) * 100).toFixed() || undefined,
+      withoutVat: paymentAmountWOVat,
+      withVat: paymentAmountWVat || undefined,
+      result: paymentAmountWVat || paymentAmountWOVat,
+      vatAmount: paymentAmountWVat ? +Number(paymentAmountWVat - paymentAmountWOVat).toFixed(2) : 0
+    }
   }
 }

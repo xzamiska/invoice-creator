@@ -21,6 +21,9 @@ const locales = {
     deliveryDate: 'Delivery date',
     paymentMethod: 'Payment method',
     issuedBy: 'Issued by, signature',
+    vatLabel: 'VAT',
+    totalWithoutVat: 'Total without VAT',
+    totalAmountInclVat: 'Amount including VAT'
   },
   sk: {
     invoiceYou: 'Fakturujeme Vám:',
@@ -44,6 +47,9 @@ const locales = {
     deliveryDate: 'Dátum dodania',
     paymentMethod: 'Forma úhrady',
     issuedBy: 'Vystavil/a, podpis',
+    vatLabel: 'DPH',
+    totalWithoutVat: 'Celkom bez DPH',
+    totalAmountInclVat: 'Suma s DPH'
   },
 } as { [key: string]: { [key: string]: string } };
 

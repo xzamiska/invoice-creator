@@ -15,7 +15,7 @@ function base64_encode(file: string) {
 const getQrCode = async (data: DocumentDataClass) => {
   const model: Model = {
     IBAN: data.payment.iban,
-    Amount: data.getPaymentAmount(),
+    Amount: data.getPaymentAmount().result,
     CurrencyCode: 'EUR',
     VariableSymbol: data.payment.variableSymbol,
     Payments: 1,

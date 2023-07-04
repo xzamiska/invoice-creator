@@ -19,5 +19,8 @@
     "issueDate": "Dátum vystavenia",
     "deliveryDate": "Dátum dodania",
     "paymentMethod": "Forma úhrady",
-    "issuedBy": "Vystavil/a, podpis"
+    "issuedBy": "Vystavil/a, podpis",
+    "vatLabel": "DPH",
+    "totalWithoutVat": "Celkom bez DPH",
+    "totalAmountInclVat": "Suma s DPH"
 }

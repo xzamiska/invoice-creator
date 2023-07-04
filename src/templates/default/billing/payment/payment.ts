@@ -20,7 +20,7 @@ export const payment = (data: DocumentDataClass): ContentTable => ({
         new ValueColumn(data.payment.iban),
         new ValueColumn(data.payment.variableSymbol),
         new ValueColumn(data.dates.dueDate),
-        new ValueColumn(formatNumber(data.getPaymentAmount()), '#3A3A3A'),
+        new ValueColumn(formatNumber(data.getPaymentAmount().result), '#3A3A3A'),
       ],
     ],
   },

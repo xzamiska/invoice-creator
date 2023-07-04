@@ -6,7 +6,7 @@ import { header } from './header/header';
 import { pbsSignature } from './pbs-signature/pbs-signature';
 
 export const DefaultTemplate = async (data: DocumentDataClass): Promise<TDocumentDefinitions> => ({
-  content: [header(data), billing(data), await pbsSignature(data), '\n', footer(data)],
+  content: [header(data), billing(data), await pbsSignature(data), '\n'],
   styles: {
     notesTitle: {
       fontSize: 10,
@@ -20,4 +20,5 @@ export const DefaultTemplate = async (data: DocumentDataClass): Promise<TDocumen
   defaultStyle: {
     columnGap: 20,
   },
+  footer: [footer(data)]
 });

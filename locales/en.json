@@ -19,5 +19,8 @@
     "issueDate": "Issue date",
     "deliveryDate": "Delivery date",
     "paymentMethod": "Payment method",
-    "issuedBy": "Issued by, signature"
+    "issuedBy": "Issued by, signature",
+    "vatLabel": "VAT",
+    "totalWithoutVat": "Total without VAT",
+    "totalAmountInclVat": "Amount including VAT"
 }

@@ -37,21 +37,100 @@ const data: DocumentData = {
   },
   activities: [
     {
-      description: 'Soft delivered',
+      description: 'Soft development',
       count: 1,
       pricePerUnit: 45000,
     },
+    {
+      description: 'Consulting',
+      count: 12,
+      pricePerUnit: 200,
+    },
+    {
+      description: 'Environmet management',
+      count: 25,
+      pricePerUnit: 100,
+    }
   ],
-  fileName: 'test_document',
+  fileName: 'test_document_without_vat',
 };
 
 const options: Options = {
   filePath: 'src/__tests__/assets/',
-  locale: 'en',
+  locale: 'sk',
 };
 
-test('generate', () => {
-  new GeneratePdf(data, options).generate().then((val) => {
+test('generateWOVat', () => {
+  return new GeneratePdf(data, options).generate().then((val) => {
+    expect(val).toBe(EGenerateState.success);
+  });
+});
+
+test('generateWVat', () => {
+  let testData = { ...data };
+  testData.company.ic_dph = 'LA123456';
+  testData.fileName = 'test_document_with_vat';
+
+  testData.activities.push(
+    {
+      description: 'Additional services',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+  testData.activities.push(
+    {
+      description: 'Additional services',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+  testData.activities.push(
+    {
+      description: 'Additional services',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+  testData.activities.push(
+    {
+      description: 'Additional services',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+  testData.activities.push(
+    {
+      description: 'Additional services',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+  testData.activities.push(
+    {
+      description: 'Additional services',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+  testData.activities.push(
+    {
+      description: 'Additional services',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+  testData.activities.push(
+    {
+      description: 'Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here. Additional services with some additional info which should be provided here.',
+      count: 1450,
+      pricePerUnit: 100,
+    }
+  );
+
+  let testOptions = { ...options };
+  testOptions.locale = 'en';
+  return new GeneratePdf(testData, testOptions).generate().then((val) => {
     expect(val).toBe(EGenerateState.success);
   });
 });
