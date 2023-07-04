@@ -27,7 +27,7 @@ const layout: TableLayout = {
 export const data = (documentData: DocumentDataClass) => {
   const paymentAmount = documentData.getPaymentAmount();
 
-  let result = [
+  const result = [
     {
       text: __('invoiceYou'),
       margin: [0, 10, 0, 10],
