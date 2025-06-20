@@ -5,7 +5,7 @@ import { Options } from '../types/options';
 const price = 10;
 const data: DocumentData = {
   company: {
-    title: 'Invoice for client',
+    title: 'my soft s.r.o.',
     name: 'my soft s.r.o.',
     street: 'My soft street 45G',
     postalCode: '90074',

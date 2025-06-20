@@ -7,15 +7,19 @@ import { __ } from '../../../../services/localization';
 
 const layout: TableLayout = {
   defaultBorder: false,
-  hLineWidth: () => 1,
-  vLineWidth: () => 1,
+  hLineWidth: (i, node) => {
+    // If it's the last row, return 0 to avoid drawing a line
+    if (i === node.table.body.length) {
+      return 0;
+    }
+    return 1;
+  },
   hLineColor: (i, node) => {
     if (i === 1 || i === 0) {
       return '#bfdde8';
     }
     return '#eaeaea';
   },
-  vLineColor: () => '#eaeaea',
   hLineStyle: () => null,
   paddingLeft: () => 10,
   paddingRight: () => 10,
@@ -23,6 +27,11 @@ const layout: TableLayout = {
   paddingBottom: () => 2,
   fillColor: (rowIndex, node, columnIndex) => '#fff',
 };
+
+const amountLayout: TableLayout = {
+  ...layout,
+  hLineColor: () => '#bfdde8'
+}
 
 export const data = (documentData: DocumentDataClass) => {
   const paymentAmount = documentData.getPaymentAmount();
@@ -53,7 +62,16 @@ export const data = (documentData: DocumentDataClass) => {
             new ValueColumn(formatNumberAsCurrency(item.pricePerUnit), 'right'),
             new ValueColumn(formatNumberAsCurrency(item.pricePerUnit * item.count), 'right'),
           ]),
-          // end loop
+        ],
+      } as Table,
+    } as ContentTable,
+    {
+      layout: amountLayout,
+      unbreakable: true,
+      table: {
+        headerRows: 0,
+        widths: [250, '*', '*', '*'],
+        body: [
           [
             {
               text: documentData.company.ic_dph ? __('totalWithoutVat') : __('totalAmount'),
@@ -62,29 +80,23 @@ export const data = (documentData: DocumentDataClass) => {
               fontSize: 9,
               border: [false, true, false, false],
             },
-            '',
-            '',
+            {
+              text: '',
+              border: [false, true, false, false],
+            },
+            {
+              text: '',
+              border: [false, true, false, false],
+            },
             ...getAmout(paymentAmount, !!documentData.company.ic_dph),
           ],
-        ],
-      } as Table,
+          ...(documentData.company.ic_dph
+            ? getVatAmount(paymentAmount)
+            : []),
+        ]
+      }
     } as ContentTable,
   ];
-
-  // TODO: resolve page break
-  let absolutePosition = result.map((tmptem: any) => tmptem.absolutePosition);
-  let relativePosition = result.map((tmptem: any) => tmptem.relativePosition);
-
-  console.log('absolutePosition', absolutePosition);
-  console.log('relativePosition', relativePosition);
-
-  if (documentData.company.ic_dph) {
-    getVatAmount(paymentAmount).forEach((row) => (result[1] as ContentTable).table.body.push(row));
-  }
-
-  if (documentData.activities.length > 3) {
-    result.push({ pageBreak: 'after', text: '' } as Content);
-  }
 
   return result;
 };
@@ -99,8 +111,14 @@ function getVatAmount(paymentAmount: PaymentAmount): any[] {
         fontSize: 9,
         border: [false, false, false, false],
       },
-      '',
-      '',
+      {
+        text: '',
+        border: [false, false, false, false],
+      },
+      {
+        text: '',
+        border: [false, false, false, false],
+      },
       {
         text: formatNumberAsCurrency(paymentAmount.vatAmount as number),
         margin: [0, 5, 0, 5],
@@ -116,16 +134,22 @@ function getVatAmount(paymentAmount: PaymentAmount): any[] {
         margin: [0, 5, 0, 5],
         bold: true,
         fontSize: 9,
-        border: [false, false, false, false],
+        border: [false, true, false, false],
       },
-      '',
-      '',
+      {
+        text: '',
+        border: [false, true, false, false],
+      },
+      {
+        text: '',
+        border: [false, true, false, false],
+      },
       {
         text: formatNumberAsCurrency(paymentAmount.result),
         margin: [0, 5, 0, 5],
         bold: true,
         fontSize: 9,
-        border: [false, false, false, false],
+        border: [false, true, false, false],
         alignment: 'right',
       },
     ],
