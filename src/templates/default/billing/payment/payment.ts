@@ -1,9 +1,9 @@
 import { ContentTable } from 'pdfmake/interfaces';
-import { formatNumber } from '../../../../helper/number-formatting';
+import { formatNumber } from '../../../../helper/number-formatting.js';
 import { DocumentDataClass } from '../../../../types/document-data';
-import { LabelColumn } from './types/label-column';
-import { ValueColumn } from './types/value-column';
-import { __ } from '../../../../services/localization';
+import { LabelColumn } from './types/label-column.js';
+import { ValueColumn } from './types/value-column.js';
+import { __ } from '../../../../services/localization.js';
 
 export const payment = (data: DocumentDataClass): ContentTable => ({
   table: {

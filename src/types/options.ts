@@ -1,4 +1,4 @@
-export interface Options {
+export type Options = {
   locale?: string;
   filePath?: string;
 }

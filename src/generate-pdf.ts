@@ -2,10 +2,18 @@ import PdfPrinter from 'pdfmake';
 import fs from 'fs';
 import path from 'path';
 import { BufferOptions, TDocumentDefinitions } from 'pdfmake/interfaces';
-import { getTemplate, Templates } from './templates/template.service';
-import { DocumentData, DocumentDataClass } from './types/document-data';
-import { Options } from './types/options';
-import { setLocale } from './services/localization';
+import { getTemplate, Templates } from './templates/template.service.js';
+import { DocumentData, DocumentDataClass } from './types/document-data.js';
+import { Options } from './types/options.js';
+import { setLocale } from './services/localization.js';
+import { EGenerateState } from './types/generate-state.enum.js';
+
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const FONTS = {
   Roboto: {
@@ -52,9 +60,4 @@ export class GeneratePdf {
   private async getDocument(): Promise<TDocumentDefinitions> {
     return await getTemplate(Templates.default, this.data);
   }
-}
-
-export enum EGenerateState {
-  success,
-  error,
 }

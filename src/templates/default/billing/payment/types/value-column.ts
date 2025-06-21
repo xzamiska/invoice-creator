@@ -1,5 +1,5 @@
 import { Margins } from 'pdfmake/interfaces';
-import { Border, LabelValueColumn, PAYMENT_BG_COLOR, PAYMENT_COLOR, PAYMENT_VALUE_FONT_SIZE } from '../../../types';
+import { Border, LabelValueColumn, PAYMENT_BG_COLOR, PAYMENT_COLOR, PAYMENT_VALUE_FONT_SIZE } from '../../../types/index.js';
 
 export class ValueColumn implements LabelValueColumn {
   color: string;

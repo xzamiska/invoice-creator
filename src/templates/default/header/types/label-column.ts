@@ -1,5 +1,5 @@
 import { Alignment } from 'pdfmake/interfaces';
-import { HEADER_LABEL_COLOR, LabelValueColumn } from '../../types';
+import { HEADER_LABEL_COLOR, LabelValueColumn } from '../../types/index.js';
 
 export class LabelColumn implements LabelValueColumn {
   fontSize: number;

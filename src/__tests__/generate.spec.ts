@@ -1,5 +1,6 @@
-import { EGenerateState, GeneratePdf } from '../generate-pdf';
+import { GeneratePdf } from '../generate-pdf';
 import { DocumentData } from '../types/document-data';
+import { EGenerateState } from '../types/generate-state.enum.js';
 import { Options } from '../types/options';
 
 const data: DocumentData = {
@@ -33,7 +34,7 @@ const data: DocumentData = {
   payment: {
     variableSymbol: '111111',
     paymentMethod: 'Prevod',
-    iban: 'SK9909000000009999999999',
+    iban: 'SK8309000000005191394374',
   },
   activities: [
     {

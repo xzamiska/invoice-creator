@@ -41,7 +41,7 @@ export interface ActivityData {
   vat?: number;
 }
 
-export interface DocumentData {
+export type DocumentData = {
   company: CompanyData;
   client: ClientData;
 

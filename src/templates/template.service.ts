@@ -1,6 +1,6 @@
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import { DocumentDataClass } from '../types/document-data';
-import { DefaultTemplate } from './default/template';
+import { DocumentDataClass } from '../types/document-data.js';
+import { DefaultTemplate } from './default/template.js';
 // import { ChloinTemplate } from './chloin/template';
 
 export const getTemplate = async (type: Templates, data: DocumentDataClass): Promise<TDocumentDefinitions> => {

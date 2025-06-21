@@ -1,5 +1,6 @@
-import { GeneratePdf } from './generate-pdf';
-import { DocumentData } from './types/document-data';
-import { Options } from './types/options';
+import { GeneratePdf } from './generate-pdf.js';
+import { DocumentData } from './types/document-data.js';
+import { Options } from './types/options.js';
 
-export { GeneratePdf, DocumentData, Options };
+export { GeneratePdf };
+export type { DocumentData, Options };

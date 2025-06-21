@@ -1,4 +1,3 @@
-import { EGenerateState, GeneratePdf } from '../generate-pdf';
 import { DocumentData, DocumentDataClass } from '../types/document-data';
 import { Options } from '../types/options';
 

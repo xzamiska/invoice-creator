@@ -1,5 +1,5 @@
 import { Alignment, Margins } from 'pdfmake/interfaces';
-import { LabelValueColumn } from '../../../types';
+import { LabelValueColumn } from '../../../types/index.js';
 
 export class LabelColumn implements LabelValueColumn {
   fontSize: number;

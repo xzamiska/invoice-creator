@@ -1,10 +1,14 @@
-import { generate, Model } from 'bysquare';
+import {
+  CurrencyCode,
+  encode,
+  PaymentOptions
+} from 'bysquare';
 import { ContentTable, Table } from 'pdfmake/interfaces';
 import { DocumentDataClass } from '../../../types/document-data';
 
 import * as fs from 'fs';
 import * as QRCode from 'qrcode';
-import { __ } from '../../../services/localization';
+import { __ } from '../../../services/localization.js';
 
 const noBorder = [false, false, false, false];
 
@@ -13,18 +17,24 @@ function base64_encode(file: string) {
 }
 
 const getQrCode = async (data: DocumentDataClass) => {
-  const model: Model = {
-    IBAN: data.payment.iban,
-    Amount: data.getPaymentAmount().result,
-    CurrencyCode: 'EUR',
-    VariableSymbol: data.payment.variableSymbol,
-    Payments: 1,
-    PaymentOptions: 1,
-    BankAccounts: 1,
-  };
+  const qrString = encode({
+    invoiceId: data.payment.variableSymbol,
+    payments: [
+      {
+        type: PaymentOptions.PaymentOrder,
+        amount: data.getPaymentAmount().result,
+        bankAccounts: [
+          {
+            iban: data.payment.iban,
+          },
+        ],
+        currencyCode: CurrencyCode.EUR,
+        variableSymbol: data.payment.variableSymbol,
+      },
+    ],
+  });
 
-  const qrstring = await generate(model);
-  const qrcode64 = await QRCode.toDataURL(qrstring);
+  const qrcode64 = await QRCode.toDataURL(qrString);
   return qrcode64;
 };
 
@@ -57,11 +67,11 @@ export const pbsSignature = async (data: DocumentDataClass) => [
           },
           data.signatureSrc
             ? {
-                image: base64_encode(data.signatureSrc),
-                width: 200,
-                border: noBorder,
-                alignment: 'right',
-              }
+              image: base64_encode(data.signatureSrc),
+              width: 200,
+              border: noBorder,
+              alignment: 'right',
+            }
             : {},
         ],
       ],

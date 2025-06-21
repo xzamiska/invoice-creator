@@ -1,9 +1,9 @@
 import { Content, ContentTable, Table, TableLayout } from 'pdfmake/interfaces';
-import { formatNumber as formatNumberAsCurrency } from '../../../../helper/number-formatting';
+import { formatNumber as formatNumberAsCurrency } from '../../../../helper/number-formatting.js';
 import { ActivityIntern, DocumentDataClass, PaymentAmount } from '../../../../types/document-data';
-import { LabelColumn } from './types/label-column';
-import { ValueColumn } from './types/value-column';
-import { __ } from '../../../../services/localization';
+import { LabelColumn } from './types/label-column.js';
+import { ValueColumn } from './types/value-column.js';
+import { __ } from '../../../../services/localization.js';
 
 const layout: TableLayout = {
   defaultBorder: false,

@@ -1,4 +1,4 @@
-import { getLocalized } from './locales';
+import { getLocalized } from './locales.js';
 
 let LOCALE = '';
 

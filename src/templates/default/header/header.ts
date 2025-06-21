@@ -1,8 +1,8 @@
 import { Column } from 'pdfmake/interfaces';
 import { DocumentDataClass } from '../../../types/document-data';
-import { LabelColumn } from './types/label-column';
-import { ValueColumn } from './types/value-column';
-import { __ } from '../../../services/localization';
+import { LabelColumn } from './types/label-column.js';
+import { ValueColumn } from './types/value-column.js';
+import { __ } from '../../../services/localization.js';
 
 const headerLeft = (title: string): Column => ({
   text: title,
