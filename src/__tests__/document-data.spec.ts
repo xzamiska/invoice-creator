@@ -66,7 +66,6 @@ test('paymentAmountWOVat', () => {
   const paymentAmount = documentDataClass.getPaymentAmount();
   expect(paymentAmount.withoutVat).toBe(20);
   expect(paymentAmount.withVat).toBe(undefined);
-  expect(paymentAmount.vat).toBe(undefined);
   expect(paymentAmount.result).toBe(20);
   expect(paymentAmount.vatAmount).toBe(0);
 });
@@ -89,9 +88,40 @@ test('paymentAmountWVat', () => {
   };
   const documentDataClass = new DocumentDataClass(testData);
   const paymentAmount = documentDataClass.getPaymentAmount();
-  expect(paymentAmount.withVat).toBe(240);
+  expect(paymentAmount.withVat).toBe(246);
   expect(paymentAmount.withoutVat).toBe(200);
-  expect(paymentAmount.vat).toBe(20);
-  expect(paymentAmount.result).toBe(240);
-  expect(paymentAmount.vatAmount).toBe(40);
+  expect(paymentAmount.result).toBe(246);
+  expect(paymentAmount.vatAmount).toBe(46);
+});
+
+
+test('paymentAmountWVat', () => {
+  const testData: DocumentData = {
+    ...data,
+    company: {
+      ...data.company,
+      ic_dph: 'LA123456',
+    },
+    activities: [
+      ...data.activities,
+      {
+        count: 1,
+        description: 'Test Consult',
+        pricePerUnit: 10,
+        vat: 19
+      },
+      {
+        count: 1,
+        description: 'Test Consult',
+        pricePerUnit: 10,
+        vat: 5
+      },
+    ],
+  };
+  const documentDataClass = new DocumentDataClass(testData);
+  const paymentAmount = documentDataClass.getPaymentAmount();
+  expect(paymentAmount.withVat).toBe(24.6 + 11.9 + 10.5);
+  expect(paymentAmount.withoutVat).toBe(40);
+  expect(paymentAmount.result).toBe(24.6 + 11.9 + 10.5);
+  expect(paymentAmount.vatAmount).toBe(4.6 + 1.9 + 0.5);
 });

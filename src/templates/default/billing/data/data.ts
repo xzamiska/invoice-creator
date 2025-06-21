@@ -1,6 +1,6 @@
 import { Content, ContentTable, Table, TableLayout } from 'pdfmake/interfaces';
 import { formatNumber as formatNumberAsCurrency } from '../../../../helper/number-formatting';
-import { DocumentDataClass, PaymentAmount } from '../../../../types/document-data';
+import { ActivityIntern, DocumentDataClass, PaymentAmount } from '../../../../types/document-data';
 import { LabelColumn } from './types/label-column';
 import { ValueColumn } from './types/value-column';
 import { __ } from '../../../../services/localization';
@@ -30,11 +30,16 @@ const layout: TableLayout = {
 
 const amountLayout: TableLayout = {
   ...layout,
-  hLineColor: () => '#bfdde8'
+  hLineColor: () => '#bfdde8',
 }
 
 export const data = (documentData: DocumentDataClass) => {
   const paymentAmount = documentData.getPaymentAmount();
+  const activitiesTableWidths = paymentAmount.result > 100000 ? [160, '*', '*', '*', '*', '*'] : [190, '*', '*', '*', '*', '*'];
+
+  const amountTableWidths = paymentAmount.result > 100000 ?
+    (paymentAmount.result > 1000000 ? [130, '*', '*', '*', '*', '*'] : [155, '*', '*', '*', '*', '*'])
+    : [185, '*', '*', '*', '*', '*'];
 
   const result = [
     {
@@ -43,118 +48,205 @@ export const data = (documentData: DocumentDataClass) => {
       fontSize: 8,
       italics: true,
     } as Content,
-    {
-      layout,
-      table: {
-        headerRows: 1,
-        widths: [250, '*', '*', '*'],
-        body: [
-          [
-            new LabelColumn(__('description'), 'left'),
-            new LabelColumn(__('count'), 'right'),
-            new LabelColumn(__('pricePerIncl'), 'right'),
-            new LabelColumn(__('amount'), 'right'),
+    documentData.company.ic_dph ?
+      {
+        layout,
+        table: {
+          headerRows: 1,
+          widths: activitiesTableWidths,
+          body: [
+            [
+              new LabelColumn(__('description'), 'left'),
+              new LabelColumn(__('count'), 'right'),
+              new LabelColumn(__('pricePerIncl'), 'right'),
+              new LabelColumn(__('vatLabel'), 'right'),
+              new LabelColumn(__('totalAmountWOVat'), 'right'),
+              new LabelColumn(__('totalAmountInclVat'), 'right')
+            ],
+            // start loop
+            ...documentData.activities.map((item) => [
+              new ValueColumn(item.description, 'left'),
+              new ValueColumn(item.count.toFixed(2), 'right'),
+              new ValueColumn(formatNumberAsCurrency(item.pricePerUnit), 'right'),
+              new ValueColumn(`${item.vat}%`, 'right'),
+              new ValueColumn(formatNumberAsCurrency(item.pricePerUnit * item.count), 'right'),
+              new ValueColumn(
+                formatNumberAsCurrency(item.pricePerUnit * item.count * (1 + item.vat / 100)),
+                'right'
+              ),
+            ]),
           ],
-          // start loop
-          ...documentData.activities.map((item) => [
-            new ValueColumn(item.description, 'left'),
-            new ValueColumn(item.count.toFixed(2), 'right'),
-            new ValueColumn(formatNumberAsCurrency(item.pricePerUnit), 'right'),
-            new ValueColumn(formatNumberAsCurrency(item.pricePerUnit * item.count), 'right'),
-          ]),
-        ],
-      } as Table,
-    } as ContentTable,
-    {
-      layout: amountLayout,
-      unbreakable: true,
-      table: {
-        headerRows: 0,
-        widths: [250, '*', '*', '*'],
-        body: [
-          [
-            {
-              text: documentData.company.ic_dph ? __('totalWithoutVat') : __('totalAmount'),
-              margin: [0, 5, 0, 5],
-              bold: !!!documentData.company.ic_dph,
-              fontSize: 9,
-              border: [false, true, false, false],
-            },
-            {
-              text: '',
-              border: [false, true, false, false],
-            },
-            {
-              text: '',
-              border: [false, true, false, false],
-            },
-            ...getAmout(paymentAmount, !!documentData.company.ic_dph),
+        } as Table,
+      } as ContentTable :
+      {
+        layout,
+        table: {
+          headerRows: 1,
+          widths: [250, '*', '*', '*'],
+          body: [
+            [
+              new LabelColumn(__('description'), 'left'),
+              new LabelColumn(__('count'), 'right'),
+              new LabelColumn(__('pricePerIncl'), 'right'),
+              new LabelColumn(__('amount'), 'right'),
+            ],
+            // start loop
+            ...documentData.activities.map((item) => [
+              new ValueColumn(item.description, 'left'),
+              new ValueColumn(item.count.toFixed(2), 'right'),
+              new ValueColumn(formatNumberAsCurrency(item.pricePerUnit), 'right'),
+              new ValueColumn(formatNumberAsCurrency(item.pricePerUnit * item.count), 'right'),
+            ]),
           ],
-          ...(documentData.company.ic_dph
-            ? getVatAmount(paymentAmount)
-            : []),
-        ]
-      }
-    } as ContentTable,
+        } as Table,
+      } as ContentTable,
+    documentData.company.ic_dph ?
+      {
+        layout: amountLayout,
+        unbreakable: true,
+        table: {
+          headerRows: 0,
+          widths: amountTableWidths,
+          body: [
+            [
+              {
+                text: __('amount'),
+                margin: [0, 5, 0, 5],
+                bold: true,
+                fontSize: 8,
+                border: [false, true, false, false],
+              },
+              {
+                text: '',
+                border: [false, true, false, false],
+              },
+              {
+                text: '',
+                border: [false, true, false, false],
+              },
+              {
+                text: '',
+                border: [false, true, false, false],
+              },
+              ...getAmout(paymentAmount, !!documentData.company.ic_dph),
+              {
+                text: formatNumberAsCurrency(paymentAmount.result),
+                margin: [0, 5, 0, 5],
+                fontSize: 8,
+                bold: true,
+                border: [false, true, false, false],
+                alignment: 'right',
+              },
+            ],
+            // ...getVatAmount(paymentAmount, documentData.activities),
+          ]
+        }
+      } as ContentTable :
+      {
+        layout: amountLayout,
+        unbreakable: true,
+        table: {
+          headerRows: 0,
+          widths: [250, '*',],
+          body: [
+            [
+              {
+                text: __('amount'),
+                margin: [0, 5, 0, 5],
+                bold: !!!documentData.company.ic_dph,
+                fontSize: 8,
+                border: [false, true, false, false],
+              },
+              ...getAmout(paymentAmount, !!documentData.company.ic_dph),
+            ],
+          ]
+        }
+      } as ContentTable,
   ];
 
   return result;
 };
 
-function getVatAmount(paymentAmount: PaymentAmount): any[] {
-  return [
-    [
-      {
-        text: `${__('vatLabel')} ${paymentAmount.vat}% z ${formatNumberAsCurrency(paymentAmount.withoutVat)}`,
-        margin: [0, 5, 0, 5],
-        bold: false,
-        fontSize: 9,
-        border: [false, false, false, false],
-      },
-      {
-        text: '',
-        border: [false, false, false, false],
-      },
-      {
-        text: '',
-        border: [false, false, false, false],
-      },
-      {
-        text: formatNumberAsCurrency(paymentAmount.vatAmount as number),
-        margin: [0, 5, 0, 5],
-        bold: false,
-        fontSize: 9,
-        border: [false, false, false, false],
-        alignment: 'right',
-      },
-    ],
-    [
-      {
-        text: __('totalAmountInclVat'),
-        margin: [0, 5, 0, 5],
-        bold: true,
-        fontSize: 9,
-        border: [false, true, false, false],
-      },
-      {
-        text: '',
-        border: [false, true, false, false],
-      },
-      {
-        text: '',
-        border: [false, true, false, false],
-      },
-      {
-        text: formatNumberAsCurrency(paymentAmount.result),
-        margin: [0, 5, 0, 5],
-        bold: true,
-        fontSize: 9,
-        border: [false, true, false, false],
-        alignment: 'right',
-      },
-    ],
-  ];
-}
+// function getVatAmount(paymentAmount: PaymentAmount, activities: ActivityIntern[]): any[] {
+//   let activitiesVatLabels =
+//     activities.map((item) => ({
+//       label: `${item.vat}%`, //`${item.vat}% z ${formatNumberAsCurrency(item.pricePerUnit * item.count)}`,
+//       amountWithoutVat: (item.pricePerUnit * item.count),
+//       amountWithVat: (item.pricePerUnit * item.count * (1 + item.vat / 100)),
+//       vatAmount: (item.pricePerUnit * item.count * (item.vat / 100)),
+//     }));
+//   console.log(activitiesVatLabels);
+//   return [
+//     ...activitiesVatLabels.map((item) => {
+//       return [
+//         {
+//           text: `${__('vatLabel')} ${item.label}`,
+//           margin: [0, 5, 0, 5],
+//           bold: false,
+//           fontSize: 8,
+//           border: [false, false, false, false],
+//         },
+//         {
+//           text: '',
+//           border: [false, false, false, false],
+//         },
+//         {
+//           text: '',
+//           border: [false, false, false, false],
+//         },
+//         {
+//           text: '',
+//           border: [false, false, false, false],
+//         },
+//         {
+//           text: '',
+//           border: [false, false, false, false],
+//         },
+//         {
+//           text: formatNumberAsCurrency(item.vatAmount as number),
+//           margin: [0, 5, 0, 5],
+//           bold: false,
+//           fontSize: 8,
+//           border: [false, false, false, false],
+//           alignment: 'right',
+//         },
+//       ];
+//     }),
+//     [
+//       {
+//         text: __('amount'),
+//         margin: [0, 5, 0, 5],
+//         bold: true,
+//         fontSize: 8,
+//         border: [false, true, false, false],
+//       },
+//       {
+//         text: '',
+//         border: [false, true, false, false],
+//       },
+//       {
+//         text: '',
+//         border: [false, true, false, false],
+//       },
+//       {
+//         text: '',
+//         border: [false, true, false, false],
+//       },
+//       {
+//         text: '',
+//         border: [false, true, false, false],
+//       },
+//       {
+//         text: formatNumberAsCurrency(paymentAmount.result),
+//         margin: [0, 5, 0, 5],
+//         bold: true,
+//         fontSize: 8,
+//         border: [false, true, false, false],
+//         alignment: 'right',
+//       },
+//     ],
+//   ];
+// }
 
 function getAmout(paymentAmount: PaymentAmount, isVatPayer: boolean): any[] {
   if (isVatPayer) {
@@ -162,8 +254,8 @@ function getAmout(paymentAmount: PaymentAmount, isVatPayer: boolean): any[] {
       {
         text: formatNumberAsCurrency(paymentAmount.withoutVat),
         margin: [0, 5, 0, 5],
-        bold: false,
-        fontSize: 9,
+        bold: true,
+        fontSize: 8,
         border: [false, true, false, false],
         alignment: 'right',
       },
@@ -174,7 +266,7 @@ function getAmout(paymentAmount: PaymentAmount, isVatPayer: boolean): any[] {
         text: formatNumberAsCurrency(paymentAmount.result),
         margin: [0, 5, 0, 5],
         bold: true,
-        fontSize: 9,
+        fontSize: 8,
         border: [false, true, false, false],
         alignment: 'right',
       },

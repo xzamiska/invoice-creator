@@ -24,6 +24,7 @@ const locales = {
     vatLabel: 'VAT',
     totalWithoutVat: 'Total without VAT',
     totalAmountInclVat: 'Amount including VAT',
+    totalAmountWOVat: 'Amount without VAT',
   },
   sk: {
     invoiceYou: 'Fakturujeme Vám:',
@@ -50,6 +51,8 @@ const locales = {
     vatLabel: 'DPH',
     totalWithoutVat: 'Celkom bez DPH',
     totalAmountInclVat: 'Suma s DPH',
+    totalAmountWOVat: 'Suma bez DPH',
+    
   },
 } as { [key: string]: { [key: string]: string } };
 

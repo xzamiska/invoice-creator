@@ -30,6 +30,7 @@ const getQrCode = async (data: DocumentDataClass) => {
 
 export const pbsSignature = async (data: DocumentDataClass) => [
   {
+    unbreakable: true,
     table: {
       headerRows: 1,
       widths: ['*', '*'],

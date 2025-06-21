@@ -40,16 +40,19 @@ const data: DocumentData = {
       description: 'Soft development',
       count: 1,
       pricePerUnit: 45000,
+      vat: 23,
     },
     {
       description: 'Consulting',
       count: 12,
       pricePerUnit: 200,
+      vat: 19,
     },
     {
       description: 'Environmet management',
       count: 25,
       pricePerUnit: 100,
+      vat: 5,
     },
   ],
   fileName: 'test_document_without_vat',
@@ -62,6 +65,15 @@ const options: Options = {
 
 test('generateWOVat', () => {
   return new GeneratePdf(data, options).generate().then((val) => {
+    expect(val).toBe(EGenerateState.success);
+  });
+});
+
+test('generateWVatShort', () => {
+  let testData = { ...data };
+  testData.company.ic_dph = 'LA123456';
+  testData.fileName = 'test_document_with_vat_short';
+  return new GeneratePdf(testData, options).generate().then((val) => {
     expect(val).toBe(EGenerateState.success);
   });
 });

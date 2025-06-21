@@ -20,7 +20,7 @@ export interface CompanyData extends CompanyBase {
 }
 
 // tslint:disable-next-line: no-empty-interface
-export interface ClientData extends CompanyBase {}
+export interface ClientData extends CompanyBase { }
 
 export interface DatesData {
   issueDate: string;
@@ -38,6 +38,7 @@ export interface ActivityData {
   description: string;
   count: number;
   pricePerUnit: number;
+  vat?: number;
 }
 
 export interface DocumentData {
@@ -56,16 +57,18 @@ export interface PaymentAmount {
   result: number;
   withoutVat: number;
   withVat?: number;
-  vat?: number;
+  // vat?: number;
   vatAmount?: number;
 }
+
+export type ActivityIntern = Omit<ActivityData, 'vat'> & { vat: number };
 
 export class DocumentDataClass implements DocumentData {
   company: CompanyData;
   client: ClientData;
   dates: DatesData;
   payment: PaymentData;
-  activities: ActivityData[];
+  activities: ActivityIntern[];
   fileName: string;
   signatureSrc?: string;
 
@@ -74,7 +77,10 @@ export class DocumentDataClass implements DocumentData {
     this.client = data.client;
     this.dates = data.dates;
     this.payment = data.payment;
-    this.activities = data.activities;
+    this.activities = data.activities.map((item) => {
+      item.vat = item.vat || 23;
+      return item as ActivityIntern;
+    });
     this.fileName = data.fileName;
     this.signatureSrc = data.signatureSrc;
   }
@@ -82,10 +88,13 @@ export class DocumentDataClass implements DocumentData {
   getPaymentAmount(): PaymentAmount {
     const reducer = (accumulator: number, curr: number) => accumulator + curr;
     const paymentAmountWOVat = this.activities.map((item) => item.count * item.pricePerUnit).reduce(reducer);
-    const vat = this.company.ic_dph ? 1.2 : 1;
-    const paymentAmountWVat = this.company.ic_dph && paymentAmountWOVat * vat;
+    // const vat = this.company.ic_dph ? 1.2 : 1;
+    // const paymentAmountWVat = this.company.ic_dph && paymentAmountWOVat * vat;
+    const paymentAmountWVat = this.company.ic_dph && this.activities
+      .map((item) => item.count * item.pricePerUnit * (1 + item.vat / 100))
+      .reduce(reducer);
     return {
-      vat: +Number((vat - 1) * 100).toFixed() || undefined,
+      // vat: +Number((vat - 1) * 100).toFixed() || undefined,
       withoutVat: paymentAmountWOVat,
       withVat: paymentAmountWVat || undefined,
       result: paymentAmountWVat || paymentAmountWOVat,
