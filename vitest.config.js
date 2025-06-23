@@ -6,5 +6,6 @@ export default defineConfig({
         coverage: {
             reporter: ['text', 'json', 'html'], // Optional: Add coverage reports
         },
+        include: ['src/__tests__/*.spec.ts'], // Adjust the glob pattern to match your test files
     },
 });

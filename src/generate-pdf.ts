@@ -7,7 +7,7 @@ import { DocumentData, DocumentDataClass } from './types/document-data.js';
 import { Options } from './types/options.js';
 import { setLocale } from './services/localization.js';
 import { EGenerateState } from './types/generate-state.enum.js';
-
+import { once } from 'events';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -48,13 +48,19 @@ export class GeneratePdf {
         ? path.resolve(this.options.filePath, fileName)
         : path.resolve('./', fileName);
       const pdfDoc = this.printer.createPdfKitDocument(docDefinition, options);
-      pdfDoc.pipe(fs.createWriteStream(whereToSavePath));
+      const writeStream = fs.createWriteStream(whereToSavePath);
+
+      pdfDoc.pipe(writeStream);
       pdfDoc.end();
+
+      await once(writeStream, 'finish');
+
       return EGenerateState.success;
     } catch (error) {
       console.error(`EGenerateState.error - ${EGenerateState.error} - ${error}`);
       return EGenerateState.error;
     }
+
   }
 
   private async getDocument(): Promise<TDocumentDefinitions> {

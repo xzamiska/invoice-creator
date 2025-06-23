@@ -60,7 +60,7 @@ const data: DocumentData = {
 };
 
 const options: Options = {
-  filePath: 'src/__tests__/assets/',
+  filePath: 'src/__tests__/assets/default/',
   locale: 'sk',
 };
 

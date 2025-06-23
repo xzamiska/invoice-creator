@@ -49,7 +49,7 @@ export type DocumentData = {
   payment: PaymentData;
   activities: ActivityData[];
 
-  fileName: string;
+  fileName?: string;
   signatureSrc?: string;
 }
 
@@ -81,7 +81,7 @@ export class DocumentDataClass implements DocumentData {
       item.vat = item.vat || 23;
       return item as ActivityIntern;
     });
-    this.fileName = data.fileName;
+    this.fileName = data.fileName || 'document';
     this.signatureSrc = data.signatureSrc;
   }
 
