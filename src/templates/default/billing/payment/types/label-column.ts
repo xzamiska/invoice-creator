@@ -8,6 +8,7 @@ export class LabelColumn implements LabelValueColumn {
   margin: Margins;
   fillColor: string;
   border: Border;
+  borderColor?: [string, string?, string?, string?];
 
   constructor(text: string, fillColor?: string) {
     this.fontSize = PAYMENT_LABEL_FONT_SIZE;
@@ -15,6 +16,7 @@ export class LabelColumn implements LabelValueColumn {
     this.fillColor = fillColor || PAYMENT_BG_COLOR;
     this.text = text;
     this.margin = [0, 5, 0, 0];
-    this.border = [false, false, false, false];
+    this.border = [true, true, true, true];
+    this.borderColor = [fillColor || PAYMENT_BG_COLOR, fillColor || PAYMENT_BG_COLOR, fillColor ? '#fff' : PAYMENT_BG_COLOR, fillColor || PAYMENT_BG_COLOR];
   }
 }

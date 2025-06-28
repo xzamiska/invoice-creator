@@ -8,13 +8,15 @@ export class ValueColumn implements LabelValueColumn {
   fillColor: string;
   margin: Margins;
   fontSize: number;
+  borderColor?: [string, string?, string?, string?];
 
   constructor(text: string, fillColor?: string) {
     this.color = PAYMENT_COLOR;
     this.text = text;
-    this.border = [false, false, false, false];
     this.fillColor = fillColor || PAYMENT_BG_COLOR;
     this.margin = [0, 0, 0, 5];
     this.fontSize = PAYMENT_VALUE_FONT_SIZE;
+    this.border = [true, true, true, true];
+    this.borderColor = [fillColor || PAYMENT_BG_COLOR, fillColor || PAYMENT_BG_COLOR, fillColor ? '#fff' : PAYMENT_BG_COLOR, '#fff'];
   }
 }

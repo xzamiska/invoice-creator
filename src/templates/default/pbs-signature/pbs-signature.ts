@@ -18,7 +18,7 @@ function base64_encode(file: string) {
 
 const getQrCode = async (data: DocumentDataClass) => {
   const qrString = encode({
-    invoiceId: data.payment.variableSymbol,
+    invoiceId: data.invoiceNumber,
     payments: [
       {
         type: PaymentOptions.PaymentOrder,
@@ -64,15 +64,30 @@ export const pbsSignature = async (data: DocumentDataClass) => [
           {
             image: await getQrCode(data),
             border: noBorder,
+            width: 130
           },
-          data.signatureSrc
+          data.signatureBase64
             ? {
-              image: base64_encode(data.signatureSrc),
+              image: data.signatureBase64,//base64_encode(data.signatureBase64),
               width: 200,
-              border: noBorder,
               alignment: 'right',
+              border: noBorder,
             }
-            : {},
+            : {
+              alignment: 'right',
+              border: noBorder,
+              canvas: [
+                {
+                  type: 'rect',
+                  x: 0,
+                  y: 0,
+                  w: 200,
+                  h: 100,
+                  color: '#fff',
+                  lineColor: '#000',
+                },
+              ]
+            },
         ],
       ],
     } as Table,

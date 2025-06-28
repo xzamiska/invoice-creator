@@ -5,7 +5,13 @@ import { LabelColumn } from './types/label-column.js';
 import { ValueColumn } from './types/value-column.js';
 import { __ } from '../../../../services/localization.js';
 
+
 export const payment = (data: DocumentDataClass): ContentTable => ({
+  layout: {
+    defaultBorder: false,
+    hLineWidth: (i, node) => 1,
+    vLineWidth: (i, node) => 1,
+  },
   table: {
     headerRows: 1,
     widths: [220, '*', 80, 100],

@@ -1,3 +1,5 @@
+import { Templates } from "../templates/template.service.js";
+
 export interface CompanyBase {
   name: string;
 
@@ -42,6 +44,8 @@ export interface ActivityData {
 }
 
 export type DocumentData = {
+  invoiceNumber: string;
+
   company: CompanyData;
   client: ClientData;
 
@@ -50,14 +54,16 @@ export type DocumentData = {
   activities: ActivityData[];
 
   fileName?: string;
-  signatureSrc?: string;
+  template?: Templates;
+  displaySignature?: boolean;
+  signatureBase64?: string;
+  displayQrCode?: boolean;
 }
 
 export interface PaymentAmount {
   result: number;
   withoutVat: number;
   withVat?: number;
-  // vat?: number;
   vatAmount?: number;
 }
 
@@ -70,7 +76,9 @@ export class DocumentDataClass implements DocumentData {
   payment: PaymentData;
   activities: ActivityIntern[];
   fileName: string;
-  signatureSrc?: string;
+  signatureBase64?: string;
+  template?: Templates;
+  invoiceNumber: string;
 
   constructor(data: DocumentData) {
     this.company = data.company;
@@ -82,19 +90,18 @@ export class DocumentDataClass implements DocumentData {
       return item as ActivityIntern;
     });
     this.fileName = data.fileName || 'document';
-    this.signatureSrc = data.signatureSrc;
+    this.signatureBase64 = data.signatureBase64;
+    this.template = data.template || Templates.default;
+    this.invoiceNumber = data.invoiceNumber;
   }
 
   getPaymentAmount(): PaymentAmount {
     const reducer = (accumulator: number, curr: number) => accumulator + curr;
     const paymentAmountWOVat = this.activities.map((item) => item.count * item.pricePerUnit).reduce(reducer);
-    // const vat = this.company.ic_dph ? 1.2 : 1;
-    // const paymentAmountWVat = this.company.ic_dph && paymentAmountWOVat * vat;
     const paymentAmountWVat = this.company.ic_dph && this.activities
       .map((item) => item.count * item.pricePerUnit * (1 + item.vat / 100))
       .reduce(reducer);
     return {
-      // vat: +Number((vat - 1) * 100).toFixed() || undefined,
       withoutVat: paymentAmountWOVat,
       withVat: paymentAmountWVat || undefined,
       result: paymentAmountWVat || paymentAmountWOVat,

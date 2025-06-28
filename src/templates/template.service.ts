@@ -1,6 +1,7 @@
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { DocumentDataClass } from '../types/document-data.js';
 import { DefaultTemplate } from './default/template.js';
+import { ZarkTemplate } from './zark/template.js';
 // import { ChloinTemplate } from './chloin/template';
 
 export const getTemplate = async (type: Templates, data: DocumentDataClass): Promise<TDocumentDefinitions> => {
@@ -8,9 +9,9 @@ export const getTemplate = async (type: Templates, data: DocumentDataClass): Pro
     // case Templates.default: {
     //   return await DefaultTemplate(data);
     // }
-    // case Templates.chloin: {
-    //   return await ChloinTemplate(data);
-    // };
+    case Templates.zark: {
+      return await ZarkTemplate(data);
+    };
     default: {
       return await DefaultTemplate(data);
     };

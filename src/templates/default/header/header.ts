@@ -15,7 +15,7 @@ const headerLeft = (title: string): Column => ({
 
 const headerRigth = (data: DocumentDataClass): Column => [
   {
-    text: `${__('invoice')} ${data.payment.variableSymbol}`,
+    text: `${__('invoice')} ${data.invoiceNumber}`,
     color: '#333333',
     // width: '*',
     fontSize: 18,

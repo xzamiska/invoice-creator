@@ -22,6 +22,12 @@ const FONTS = {
     italics: path.resolve(__dirname, '../', 'fonts/Roboto-Italic.ttf'),
     bolditalics: path.resolve(__dirname, '../', 'fonts/Roboto-MediumItalic.ttf'),
   },
+  CourierPrime: {
+    normal: path.resolve(__dirname, '../', 'fonts/CourierPrime/CourierPrime-Regular.ttf'),
+    bold: path.resolve(__dirname, '../', 'fonts/CourierPrime/CourierPrime-Bold.ttf'),
+    italics: path.resolve(__dirname, '../', 'fonts/CourierPrime/CourierPrime-Italic.ttf'),
+    bolditalics: path.resolve(__dirname, '../', 'fonts/CourierPrime/CourierPrime-BoldItalic.ttf'),
+  }
 };
 
 export class GeneratePdf {
@@ -42,7 +48,7 @@ export class GeneratePdf {
     const options: BufferOptions = {};
 
     try {
-      const docDefinition = await this.getDocument();
+      const docDefinition = await this.getDocument(this.data?.template || Templates.default);
       const fileName = `${this.data.fileName}.pdf`;
       const whereToSavePath = this.options?.filePath
         ? path.resolve(this.options.filePath, fileName)
@@ -63,7 +69,7 @@ export class GeneratePdf {
 
   }
 
-  private async getDocument(): Promise<TDocumentDefinitions> {
-    return await getTemplate(Templates.default, this.data);
+  private async getDocument(template: number): Promise<TDocumentDefinitions> {
+    return await getTemplate(template, this.data);
   }
 }

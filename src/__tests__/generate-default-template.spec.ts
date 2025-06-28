@@ -2,6 +2,7 @@ import { GeneratePdf } from '../generate-pdf';
 import { DocumentData } from '../types/document-data';
 import { EGenerateState } from '../types/generate-state.enum.js';
 import { Options } from '../types/options';
+import { signature } from './constants.js';
 
 const data: DocumentData = {
   company: {
@@ -57,6 +58,8 @@ const data: DocumentData = {
     },
   ],
   fileName: 'test_document_without_vat',
+  signatureBase64: signature,
+  invoiceNumber: 'INV-2022-0001',
 };
 
 const options: Options = {
@@ -74,6 +77,26 @@ test('generateWVatShort', () => {
   let testData = { ...data };
   testData.company.ic_dph = 'LA123456';
   testData.fileName = 'test_document_with_vat_short';
+  testData.signatureBase64 = undefined;
+  return new GeneratePdf(testData, options).generate().then((val) => {
+    expect(val).toBe(EGenerateState.success);
+  });
+});
+
+test('generateWVat100K', () => {
+  let testData = { ...data };
+  testData.company.ic_dph = 'LA123456';
+  testData.fileName = 'test_document_with_vat_100K';
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
+  testData.activities.push({
+    description: 'Additional services',
+    count: 1450,
+    pricePerUnit: 100,
+  });
   return new GeneratePdf(testData, options).generate().then((val) => {
     expect(val).toBe(EGenerateState.success);
   });
