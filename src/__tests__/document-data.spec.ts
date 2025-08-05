@@ -53,6 +53,7 @@ const data: DocumentData = {
     },
   ],
   fileName: 'test_document',
+  invoiceNumber: '2022/001',
 };
 
 const options: Options = {
